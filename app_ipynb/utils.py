@@ -17,3 +17,11 @@ def load_all_models():
             except Exception as e:
                 print(f"加载模型文件出错: {filepath}，错误：{e}")
     return models
+
+
+from config import MODEL_CONFIG
+def get_model_config(model_name: str):
+    for provider_models in MODEL_CONFIG.values():
+        if model_name in provider_models:
+            return provider_models[model_name]
+    raise ValueError(f"Model config for {model_name} not found.")
