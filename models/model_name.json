@@ -1,0 +1,20 @@
+{
+    "zhipu": {
+        "GLM-4.5-Flash": "GLM-4.5-Flash",
+        "GLM-4-Flash": "GLM-4-Flash-250414",
+        "GLM-Z1-Flash": "GLM-Z1-Flash",
+        "GLM-4.1V-Thinking-Flash": "GLM-4.1V-Thinking-Flash",
+        "GLM-4V-Flash": "GLM-4V-Flash",
+        "Cogview-3-Flash": "Cogview-3-Flash",
+        "CogVideoX-Flash": "CogVideoX-Flash"
+    },
+    "xunfei": {
+        "Spark-Lite": "Lite"
+    },
+    "baidu": {
+        "ERNIE-Speed-128K": "ernie-speed-128k",
+        "ERNIE-Speed-8K": "ernie-speed-8k",
+        "ERNIE-Lite-8K": "ernie-lite-8k",
+        "ERNIE-Tiny-8K": "ernie-tiny-8k"
+    }
+}

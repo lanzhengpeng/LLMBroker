@@ -1,31 +1,30 @@
 [
-  {
-    "id": "ERNIE-Speed-128K",
-    "object": "model",
-    "created": "2025-08-01T00:00:00",
-    "owned_by": "baidu.ai",
-    "description": "百度免费模型"
-  },
-  {
-    "id": "ERNIE-Speed-8K",
-    "object": "model",
-    "created": "2025-08-01T00:00:00",
-    "owned_by": "baidu.ai",
-    "description": "百度免费模型"
-  },
-  {
-    "id": "ERNIE-Lite",
-    "object": "model",
-    "created": "2025-08-01T00:00:00",
-    "owned_by": "baidu.ai",
-    "description": "百度免费模型"
-  },
-  {
-    "id": "ERNIE-Tiny",
-    "object": "model",
-    "created": "2025-08-01T00:00:00",
-    "owned_by": "baidu.ai",
-    "description": "百度免费模型"
-  }
-
+    {
+        "id": "ERNIE-Speed-128K",
+        "object": "model",
+        "created": "2025-08-01T00:00:00",
+        "owned_by": "baidu.ai",
+        "description": "百度免费模型"
+    },
+    {
+        "id": "ERNIE-Speed-8K",
+        "object": "model",
+        "created": "2025-08-01T00:00:00",
+        "owned_by": "baidu.ai",
+        "description": "百度免费模型"
+    },
+    {
+        "id": "ernie-lite-8k",
+        "object": "model",
+        "created": "2025-08-01T00:00:00",
+        "owned_by": "baidu.ai",
+        "description": "百度免费模型"
+    },
+    {
+        "id": "ERNIE-Tiny",
+        "object": "model",
+        "created": "2025-08-01T00:00:00",
+        "owned_by": "baidu.ai",
+        "description": "百度免费模型"
+    }
 ]

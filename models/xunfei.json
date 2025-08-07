@@ -1,9 +1,9 @@
 [
-  {
-    "id": "Lite",
-    "object": "model",
-    "created": "2025-08-01T00:00:00",
-    "owned_by": "xunfei.ai",
-    "description": "讯飞免费模型"
-  }
+    {
+        "id": "Lite",
+        "object": "model",
+        "created": "2025-08-01T00:00:00",
+        "owned_by": "xunfei.ai",
+        "description": "讯飞免费模型"
+    }
 ]
