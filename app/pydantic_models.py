@@ -6,8 +6,11 @@ class Message(BaseModel):
     content: Union[str, List[Any]] = Field(..., description="消息内容，字符串或JSON列表")
 
 
+
 from typing import List, Literal, Optional, Union, Dict
 from pydantic import BaseModel, Field
+
+
 class ChatCompletionRequest(BaseModel):
     model: str = Field(..., description="模型，必填")
     messages: List[Message] = Field(..., description="消息列表，必填")
@@ -22,5 +25,7 @@ class ChatCompletionRequest(BaseModel):
     logit_bias: Optional[Dict[str, float]] = Field(None, description="逻辑偏置")
     user: Optional[str] = Field(None, description="用户标识")
     tools: Optional[List[Any]] = Field(None, description="工具列表")
-    tool_choice: Optional[Union[str, Dict[str, Any]]] = Field(None, description="工具选择")
+    tool_choice: Optional[Union[str, Dict[str,
+                                          Any]]] = Field(None,
+                                                         description="工具选择")
     response_format: Optional[Dict[str, Any]] = Field(None, description="响应格式")
