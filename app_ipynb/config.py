@@ -33,7 +33,7 @@ MODEL_CONFIG = {
             "base_url": "https://open.bigmodel.cn/api/paas/v4"
         },
         config.get("zhipu").get("Cogview-3-Flash"): {
-            "api_key": "2df10bf298af4748bf01864a3b8a0ba1.4UOCbHoDgewtC8QA",
+            "api_key": "dc4846b5f53145028b3d6c0784b1e04d.EY7MtneUU8aRlcbk",
             "base_url": "https://open.bigmodel.cn/api/paas/v4"
         },
         config.get("zhipu").get("CogVideoX-Flash"): {
