@@ -1,0 +1,26 @@
+vendors:
+  tenxun:
+    rename_params:
+      max_tokens: max_completion_tokens   # 把 max_tokens 改成 max_completion_tokens
+    remove_params:
+      - presence_penalty                  # 元宝不支持，删除
+      - frequency_penalty                 # 元宝不支持，删除
+      - logit_bias                       # 元宝不支持，删除
+      - tools                           # 目前部分模型支持，默认先去掉
+      - tool_choice
+      - response_format
+    extra_params:
+      citation: false                    # 搜索引文角标开关，默认关闭
+      enable_enhancement: false         # 功能增强开关，默认关闭
+      enable_multimedia: false          # 多媒体开关，默认关闭
+      enable_recommended_questions: false  # 推荐问答开关，默认关闭
+      force_search_enhancement: false   # 强制搜索增强开关，默认关闭
+      search_info: false                # 搜索信息返回开关，默认关闭
+      enable_deep_search: false         # 深度研究开关，默认关闭
+      enable_deep_read: false           # 文档深度阅读开关，默认关闭
+
+  # 其他模型默认透传，不做特殊处理
+  gpt-4:
+    rename_params: {}
+    remove_params: []
+    extra_params: {}

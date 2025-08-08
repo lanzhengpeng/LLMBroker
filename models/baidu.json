@@ -1,13 +1,13 @@
 [
     {
-        "id": "ERNIE-Speed-128K",
+        "id": "ernie-speed-128k",
         "object": "model",
         "created": "2025-08-01T00:00:00",
         "owned_by": "baidu.ai",
         "description": "百度免费模型"
     },
     {
-        "id": "ERNIE-Speed-8K",
+        "id": "ernie-speed-8k",
         "object": "model",
         "created": "2025-08-01T00:00:00",
         "owned_by": "baidu.ai",
@@ -21,7 +21,7 @@
         "description": "百度免费模型"
     },
     {
-        "id": "ERNIE-Tiny",
+        "id": "ernie-tiny-8k",
         "object": "model",
         "created": "2025-08-01T00:00:00",
         "owned_by": "baidu.ai",

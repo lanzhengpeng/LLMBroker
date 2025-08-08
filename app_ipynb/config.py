@@ -1,10 +1,12 @@
 # config.py
 from enum import Enum
 
+
 class ModelProvider(str, Enum):
     zhipu = "zhipu"
     xunfei = "xunfei"
     baidu = "baidu"
+    tenxun="tenxun"
 
 
 
@@ -67,6 +69,12 @@ MODEL_CONFIG = {
             "api_key":
             "bce-v3/ALTAK-4KyFUYBYZMuf8s3bxg2nO/5852d9dd9a49dccc9234f0907a1b53645456469c",
             "base_url": "https://qianfan.baidubce.com/v2"
+        }
+    },
+    ModelProvider.tenxun: {
+        config.get("tenxun").get("Hunyuan-Lite"): {
+            "api_key": "sk-3CWsaUDq2anLzJUdcm92yZyuurYxlsjODMJWjnoZAHeLLTkJ",
+            "base_url": "https://api.hunyuan.cloud.tencent.com/v1"
         }
     }
 }
