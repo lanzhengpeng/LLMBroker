@@ -1,10 +1,12 @@
 # config.py
 from enum import Enum
 
+
 class ModelProvider(str, Enum):
     zhipu = "zhipu"
     xunfei = "xunfei"
     baidu = "baidu"
+    tenxun="tenxun"
 
 
 
@@ -33,7 +35,7 @@ MODEL_CONFIG = {
             "base_url": "https://open.bigmodel.cn/api/paas/v4"
         },
         config.get("zhipu").get("Cogview-3-Flash"): {
-            "api_key": "2df10bf298af4748bf01864a3b8a0ba1.4UOCbHoDgewtC8QA",
+            "api_key": "dc4846b5f53145028b3d6c0784b1e04d.EY7MtneUU8aRlcbk",
             "base_url": "https://open.bigmodel.cn/api/paas/v4"
         },
         config.get("zhipu").get("CogVideoX-Flash"): {
@@ -67,6 +69,12 @@ MODEL_CONFIG = {
             "api_key":
             "bce-v3/ALTAK-4KyFUYBYZMuf8s3bxg2nO/5852d9dd9a49dccc9234f0907a1b53645456469c",
             "base_url": "https://qianfan.baidubce.com/v2"
+        }
+    },
+    ModelProvider.tenxun: {
+        config.get("tenxun").get("Hunyuan-Lite"): {
+            "api_key": "sk-3CWsaUDq2anLzJUdcm92yZyuurYxlsjODMJWjnoZAHeLLTkJ",
+            "base_url": "https://api.hunyuan.cloud.tencent.com/v1"
         }
     }
 }

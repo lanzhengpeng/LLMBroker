@@ -20,11 +20,11 @@ def load_all_models():
 
 
 from config import MODEL_CONFIG
+
+
 def get_model_config(model_name: str):
     for provider_models in MODEL_CONFIG.values():
         if model_name in provider_models:
             return provider_models[model_name]
     raise ValueError(f"Model config for {model_name} not found.")
-
-
 
