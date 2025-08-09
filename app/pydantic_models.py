@@ -29,3 +29,19 @@ class ChatCompletionRequest(BaseModel):
                                           Any]]] = Field(None,
                                                          description="工具选择")
     response_format: Optional[Dict[str, Any]] = Field(None, description="响应格式")
+
+from pydantic import BaseModel, Field, HttpUrl
+from typing import Optional
+class VideoGenerationRequest(BaseModel):
+    model: str = Field(..., description="模型名称")
+    prompt: str = Field(..., description="生成视频的提示语")
+    quality: str = Field("quality", description="视频质量，默认 quality")
+    with_audio: bool = Field(True, description="是否带音频，默认 True")
+    size: str = Field("1920x1080", description="视频分辨率，默认 1920x1080")
+    fps: int = Field(30, description="视频帧率，默认 30")
+    image_url: Optional[HttpUrl] = Field(None,
+                                         description="可选的图片 URL，支持 HTTP/HTTPS")
+    
+
+class RetrieveVideoRequest(BaseModel):
+    id: str    

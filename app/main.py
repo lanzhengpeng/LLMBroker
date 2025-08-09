@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import openai
-from pydantic_models import ChatCompletionRequest
+from pydantic_models import ChatCompletionRequest,VideoGenerationRequest,RetrieveVideoRequest
 from fastapi import Header
 from typing import Optional
 from fastapi import FastAPI, HTTPException
@@ -10,6 +10,11 @@ import uvicorn
 import logging
 import sys
 from config_loader import ConfigLoader
+from utils import verify_bearer_token
+from cachetools import TTLCache
+
+# 2分钟TTL缓存，最多存10个client
+client_cache = TTLCache(maxsize=10, ttl=60*5)  # ttl单位是秒
 # 顶层配置日志
 logging.basicConfig(
     level=logging.INFO,
@@ -46,16 +51,8 @@ async def chat_completions(
         request: ChatCompletionRequest,
         authorization: Optional[str] = Header(None)  # 依赖校验
 ):
-    # ✅ 提取 Bearer token
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401,
-                            detail="Unauthorized: Missing Bearer token")
-
-    token = authorization.removeprefix("Bearer ").strip()
-
-    if token != "lanzhengpeng":
-        raise HTTPException(status_code=401,
-                            detail="Unauthorized: Invalid API Key")
+    # 鉴权
+    verify_bearer_token(authorization)
     messages = [msg.model_dump()
                 for msg in request.messages]  # Pydantic v2 用 model_dump()
     if not any(msg["role"] == "system" for msg in messages):
@@ -94,6 +91,7 @@ async def chat_completions(
     if not request.stream:
         result = response.model_dump()
         del response
+        del client
         import gc
         gc.collect()
         return result
@@ -116,11 +114,76 @@ async def chat_completions(
     return StreamingResponse(format_stream(response),
                              media_type="text/event-stream")
 
-@app.post("v1/videos/generations")
-async def videos_generations():
-    pass
-import os, time, psutil
+from zai import ZhipuAiClient
+@app.post("/v1/videos/generations")
+async def videos_generations(request: VideoGenerationRequest,
+        authorization: Optional[str] = Header(None)
+        ):
+    verify_bearer_token(authorization)
+    # 获取 client
+    result=loader.get_apis_and_provider_by_model_value(request.model)
+    if result and "apis" in result and len(result["apis"]) > 0:
+        # 取第一个
+        first_api = result["apis"][0]
+        api_key = first_api["api_key"]
+    client = ZhipuAiClient(api_key=api_key)
+    req_dict = request.model_dump()
+    logger.info("配置前参数：%s", req_dict)
+    req_dict['image_url'] = str(req_dict['image_url'])
+    print(req_dict)
+    logger.info("配置后参数：%s", req_dict)
+    
+    try:
+        response = client.videos.generations(**req_dict)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    # 缓存 client 对象，key用视频请求id
+    client_cache[response.id] = client
 
+    if hasattr(response, "model_dump"):
+        result = response.model_dump()
+    else:
+        result = vars(response)  # 把对象属性转换成字典
+    del response
+    import gc
+    gc.collect()
+    return result
+    
+@app.post("/v1/videos/retrieve_videos_result")
+async def videos_retrieve_videos_result(request:RetrieveVideoRequest):
+    video_id = request.id
+
+    client = client_cache.get(video_id)
+    if not client:
+        raise HTTPException(status_code=404, detail="缓存中未找到对应客户端，可能已过期")
+    
+    try:
+        response = client.videos.retrieve_videos_result(id=video_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    if response.task_status == "PROCESSING":
+    # 任务还在进行，保留client
+        logger.info(f"任务 {video_id} 正在处理中，保留 client")
+    else:
+    # 任务已结束，删除client
+        logger.info(f"任务 {video_id} 完成，释放 client")
+        if video_id in client_cache:
+            del client_cache[video_id]
+        
+    
+    if hasattr(response, "model_dump"):
+        result = response.model_dump()
+    else:
+        result = vars(response)  # 把对象属性转换成字典
+    
+    del response
+    import gc
+    gc.collect()
+    return result
+
+
+
+import os, time, psutil
 start_time = time.time()
 
 @app.get("/monitor")
