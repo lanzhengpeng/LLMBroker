@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import openai
-from utils import get_model_config
 from pydantic_models import ChatCompletionRequest
 from fastapi import Header
 from typing import Optional
@@ -10,17 +9,17 @@ import logging
 import uvicorn
 import logging
 import sys
-
+from config_loader import ConfigLoader
 # 顶层配置日志
 logging.basicConfig(
     level=logging.INFO,
     format="%(levelname)s | %(asctime)s | %(name)s | %(message)s",
     handlers=[
-        logging.FileHandler("app.log", encoding="utf-8"),
+        logging.FileHandler("../app.log", encoding="utf-8"),
         logging.StreamHandler(sys.stdout),
     ],
 )
-
+loader = ConfigLoader()
 logger = logging.getLogger(__name__)
 app = FastAPI()
 
@@ -30,10 +29,10 @@ async def root():
     return {"message": "OpenAI compatible API service is running."}
 
 
-from utils import load_all_models
 @app.get("/v1/models")
 async def list_models():
-    models=load_all_models()
+    # 获取模型列表
+    models=loader.get_all_models()
     return {
         "object":"list",
         "data":models
@@ -70,9 +69,12 @@ async def chat_completions(
     # 这里假设你已经有 client 实例
 
     # 获取 client
-
-    client = openai.OpenAI(**get_model_config(request.model))
-
+    result=loader.get_apis_and_provider_by_model_value(request.model)
+    if result and "apis" in result and len(result["apis"]) > 0:
+        # 取第一个
+        first_api = result["apis"][0]
+    # client = openai.OpenAI(**get_model_config(request.model))
+    client = openai.OpenAI(**first_api)
     req_dict = request.model_dump()
     req_dict["messages"] = messages
 

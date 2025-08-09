@@ -19,6 +19,17 @@ vendors:
       enable_deep_search: false         # 深度研究开关，默认关闭
       enable_deep_read: false           # 文档深度阅读开关，默认关闭
 
+  google:
+    rename_params: {}
+    remove_params:
+      - frequency_penalty               # Google 不支持 frequency_penalty 参数
+      - presence_penalty                # 如果 Google 也不支持，可以同时去掉
+      - logit_bias                     # Google 不支持此参数
+      - tools                         # 根据实际支持情况去除
+      - tool_choice
+      - response_format
+    extra_params: {}
+
   # 其他模型默认透传，不做特殊处理
   gpt-4:
     rename_params: {}
